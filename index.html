@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gol Career - Centro de Soporte Técnico</title>
+    <style>
+        :root {
+            --azul-marino-profundo: #080f26;
+            --azul-marino-medio: #0d1b3e;
+            --azul-marino-claro: #1a3673;
+            --verde-neon: #00ff88;
+            --celeste-acento: #00bfff;
+            --blanco-puro: #ffffff;
+            --gris-texto: #a0aec0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--azul-marino-profundo);
+            color: var(--blanco-puro);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            opacity: 0.12;
+            filter: contrast(110%) brightness(90%);
+        }
+
+        .bg-img {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .img-1 { background-image: url('https://unsplash.com'); }
+        .img-2 { background-image: url('https://unsplash.com'); }
+
+        .blue-tint {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(8, 15, 38, 0.9) 0%, rgba(13, 27, 62, 0.95) 100%);
+            pointer-events: none;
+        }
+
+        header {
+            background-color: rgba(8, 15, 38, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(26, 54, 115, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span { color: var(--celeste-acento); }
+
+        .server-status {
+            background-color: rgba(0, 255, 136, 0.15);
+            border: 1px solid var(--verde-neon);
+            color: var(--verde-neon);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--verde-neon);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        nav a {
+            color: var(--gris-texto);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--blanco-puro); }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--gris-texto);
+            font-size: 1.1rem;
+        }
+
+        .support-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(13, 27, 62, 0.7);
+            border: 1px solid rgba(26, 54, 115, 0.4);
+            border-radius: 12px;
+            padding: 35px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--azul-marino-claro);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gris-texto);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background-color: var(--azul-marino-profundo);
+            border: 1px solid var(--azul-marino-claro);
+            color: var(--blanco-puro);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--celeste-acento);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--celeste-acento);
+            color: var(--azul-marino-profundo);
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #33ccff;
+            transform: translateY(-1px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px 30px;
+            font-size: 14px;
+            color: var(--gris-texto);
+            margin-top: 60px;
+            border-top: 1px solid rgba(26, 54, 115, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.2rem; }
+            .support-container { padding: 20px; }
+            .background-overlay { grid-template-columns: 1fr; }
+            .img-2 { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-overlay">
+        <div class="bg-img img-1"></div>
+        <div class="bg-img img-2"></div>
+    </div>
+    <div class="blue-tint"></div>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo">GOL<span>·</span>CAREER</div>
+                <div class="server-status">
+                    <span class="status-dot"></span> Servidores Activos
+                </div>
+            </div>
+            <nav>
+                <a href="#soporte">Soporte y Ayuda</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="page-header">
+            <h1>Centro de Asistencia Oficial</h1>
+            <p>¿Encontraste un error en la simulación o tenés problemas con tu cuenta de juego? Mandanos un reporte.</p>
+        </section>
+
+        <div class="support-container" id="soporte">
+            <h2 class="section-title">🛠️ Soporte Técnico</h2>
+
+            <!-- Reemplazá TU_MAIL@gmail.com por tu correo real -->
+            <form action="https://formsubmit.co/TU_MAIL@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Nuevo ticket - Gol Career">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                <div class="form-group">
+                    <label for="category">Tipo de Problema</label>
+                    <select name="tipo-de-falla" id="category" required>
+                        <option value="">Seleccioná una categoría</option>
+                        <option value="Error en la simulación">Error / Bug en simulación</option>
+                        <option value="Problema de cuenta">Problema con la cuenta / Progreso</option>
+                        <option value="Sugerencia">Sugerencia o Feedback</option>
+                        <option value="Otro asunto">Otro asunto</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Descripción del caso</label>
+                    <textarea name="mensaje" id="message" rows="5" placeholder="Detallá lo ocurrido paso a paso para que el equipo de desarrollo pueda ayudarte..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Enviar Ticket de Ayuda</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Sitio oficial de soporte para Gol Career • gol-career.netlify.app</p>
+    </footer>
+
+</body>
+</html>
